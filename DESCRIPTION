@@ -2,8 +2,16 @@ Package: localsp
 Title: Local Indicator of Stratified Power
 Version: 0.0.0.9000
 Authors@R: 
-    person("Wenbo", "Lv", , "lyu.geosocial@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0009-0002-6003-3800"))
+    c(
+      person(given = "Yongze", family = "Song",
+             email = "yongze.song@outlook.com", 
+             role = c("aut", "cph"),
+             comment = c(ORCID = "0000-0003-3420-9622")),
+      person(given = "Wenbo", family = "Lv",
+             email = "lyu.geosocial@gmail.com", 
+             role = c("aut", "cre"),
+             comment = c(ORCID = "0009-0002-6003-3800"))
+     )
 Description: Implements a local indicator of stratified power to analyze local spatial stratified association and demonstrate how spatial stratified association changes spatially and in local regions, as outlined in Hu et al. (2024) <10.1080/13658816.2024.2437811>.
 License: GPL-3
 Encoding: UTF-8
