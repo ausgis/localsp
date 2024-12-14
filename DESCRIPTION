@@ -3,9 +3,13 @@ Title: Local Indicator of Stratified Power
 Version: 0.0.0.9000
 Authors@R: 
     c(
+      person(given = "Jiao", family = "Hu",
+             email = "jeakhu0723@gmail.com", 
+             role = c("aut"),
+             comment = c(ORCID = "0000-0002-9644-9763")),
       person(given = "Yongze", family = "Song",
              email = "yongze.song@outlook.com", 
-             role = c("aut", "cph"),
+             role = c("aut"),
              comment = c(ORCID = "0000-0003-3420-9622")),
       person(given = "Wenbo", family = "Lv",
              email = "lyu.geosocial@gmail.com", 
