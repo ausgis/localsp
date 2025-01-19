@@ -10,10 +10,41 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "##"
+  comment = "##",
+  fig.path = "man/figures/localsp/"
 )
 ```
 
-```{r setup}
-library(localsp)
+## Introduction to the **localsp** package
+
+### 1.1 This package can be used to address following issues:
+
+- Identify local power of individual determinants.
+
+- Explore how spatial stratified association changes spatially and in local regions.
+
+### 1.2 How to install this package:
+
+- Install the stable version, please use:
+
+```r
+install.packages("localsp", dep = TRUE)
 ```
+
+- Install the development version, please use:
+
+```r
+install.packages("localsp",
+                 repos = c("https://ausgis.r-universe.dev",
+                           "https://cloud.r-project.org"),
+                 dep = TRUE)
+```
+
+### 1.3 Example data in this package:
+
+
+
+## Case study: identifying local stratified determinants of Mountain glacier thickness
+
+2.1 
+
