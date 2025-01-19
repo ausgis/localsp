@@ -1,3 +1,31 @@
+#' local indicator of stratified power
+#'
+#' @param formula A formula.
+#' @param data An `sf` object of observation data.
+#' @param bandwidth
+#' @param discvar Name of continuous variable columns that need to be discretized. Noted that
+#' when `formula` has `discvar`, `data` must have these columns. By default, all independent
+#' variables are used as `discvar`.
+#' @param discnum (optional) A vector of number of classes for discretization. Default is `3:8`.
+#' @param discmethod (optional) A vector of methods for discretization, default is using
+#' `c("sd","equal","geometric","quantile","natural")` by invoking `sdsfun`.
+#' @param cores (optional) Positive integer (default is 1). When cores are greater than 1, use
+#' multi-core parallel computing.
+#' @param ... (optional) Other arguments passed to `gdverse::gd_opttunidisc()`. A useful parameter
+#' is `seed`, which is used to set the random number seed.
+#'
+#' @return A `tibble`.
+#' @export
+#'
+#' @examples
+#' gtc = readr::read_csv(system.file("extdata/gtc.csv", package = "localsp"))
+#' gtc
+#' gtc = sf::st_as_sf(gtc, coords = c("X","Y"), crs = 4326)
+#' gtc
+#'
+#' \donttest{
+#' lisp(GTC ~ ., data = gtc, bandwidth = 6182954)
+#' }
 lisp = \(formula, data, bandwidth, discvar = NULL, discnum = 3:8,
          discmethod = c("sd", "equal", "geometric", "quantile", "natural"),
          cores = 1, ...){

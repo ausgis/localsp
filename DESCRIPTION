@@ -28,3 +28,6 @@ Depends:
 Imports: 
     gdverse,
     sdsfun
+Suggests: 
+    readr,
+    sf
