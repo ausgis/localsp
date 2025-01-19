@@ -23,9 +23,9 @@
 #' gtc = sf::st_as_sf(gtc, coords = c("X","Y"), crs = 4326)
 #' gtc
 #'
-#' \donttest{
-#' ## The following code takes a long time to run:
-#' lisp(GTC ~ ., data = gtc, bandwidth = 6182954, cores = 6)
+#' \dontrun{
+#' ## The following code takes approximately 5 minutes to run:
+#' lisp(GTC ~ ., data = gtc, bandwidth = 618295.4, cores = 6)
 #' }
 lisp = \(formula, data, bandwidth, discvar = NULL, discnum = 3:8,
          discmethod = c("sd", "equal", "geometric", "quantile", "natural"),
