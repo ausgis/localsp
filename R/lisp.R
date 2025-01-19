@@ -40,7 +40,7 @@ lisp = \(formula, data, bandwidth = NULL, discvar = NULL, discnum = 3:8,
   if (is.null(bandwidth)){
     yname = sdsfun::formula_varname(formula, data)[[1]]
     vgmres = automap::autofitVariogram(paste0(yname,"~ 1"), data = data)
-    bandwidth = vgmres$var_model$range[2]
+    bandwidth = vgmres$var_model$range[2] * 2
     coords = sdsfun::sf_coordinates(data)
     distmat = as.matrix(stats::dist(coords))
   } else {
