@@ -49,7 +49,8 @@ gtc
 gtc = sf::st_as_sf(gtc, coords = c("X","Y"), crs = 4326)
 gtc
 
-\donttest{
-lisp(GTC ~ ., data = gtc, bandwidth = 6182954, cores = 6)
+\dontrun{
+## The following code takes approximately 5 minutes to run:
+lisp(GTC ~ ., data = gtc, bandwidth = 618295.4, cores = 6)
 }
 }
