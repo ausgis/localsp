@@ -1,0 +1,11 @@
+citHeader("To cite localsp Package in publications use:")
+
+bibentry(
+ bibtype="Article",
+ title="A local indicator of stratified power",
+ journal="International Journal of Geographical Information Science",
+ ISSN="1362-3087",
+ pages="1–19",
+ year="2024",
+ author="Hu, Jiao and Song, Yongze and Zhang, Tingbin",
+ doi="10.1080/13658816.2024.2437811")
