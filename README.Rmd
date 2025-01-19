@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![Downloads_All](https://badgen.net/cran/dt/localsp?color=orange)](https://CRAN.R-project.org/package=localsp)
 [![Downloads](https://cranlogs.r-pkg.org/badges/localsp)](https://CRAN.R-project.org/package=localsp)
 [![R-universe](https://ausgis.r-universe.dev/badges/localsp)](https://ausgis.r-universe.dev/localsp)
-[![DOI](https://ausgis.github.io/badges/gos_paper.svg)](https://doi.org/10.1080/13658816.2024.2437811)
+[![DOI](https://img.shields.io/badge/DOI-10.1080/13658816.2024.2437811-faa92e)](https://doi.org/10.1080/13658816.2024.2437811)
 <!-- badges: end -->
 
 **Local Indicator of Stratified Power**
