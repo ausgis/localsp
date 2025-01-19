@@ -26,8 +26,12 @@ BugReports: https://github.com/ausgis/localsp/issues
 Depends: 
     R (>= 4.1.0)
 Imports: 
+    dplyr,
     gdverse,
-    sdsfun
+    purrr,
+    sdsfun,
+    tibble,
+    tidyr
 Suggests: 
     readr,
     sf
