@@ -40,8 +40,8 @@ lisp = \(formula, data, bandwidth, discvar = NULL, discnum = 3:8,
 
   calcul_localq = \(rowindice,formula,data,bw,discvar,discn,discm,...){
     localdf = data[which(distmat[rowindice,] <= bw),]
-    res = gdverse::opgd(formula, data = localdf, discvar = discvar,
-                        discnum = discn, discmethod = discm, ...)$factor
+    res = gdverse::opgd(formula, data = localdf, discvar = discvar, discnum = discn,
+                        discmethod = discm, cores = 1, ...)$factor
     names(res) = c("variable","pd","sig")
     res = tidyr::pivot_longer(res,2:3,names_to = "qn",values_to = "qv")
     localpd = res$qv
