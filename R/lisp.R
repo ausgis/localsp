@@ -24,7 +24,7 @@
 #' gtc
 #'
 #' \donttest{
-#' lisp(GTC ~ ., data = gtc, bandwidth = 6182954)
+#' lisp(GTC ~ ., data = gtc, bandwidth = 6182954, cores = 6)
 #' }
 lisp = \(formula, data, bandwidth, discvar = NULL, discnum = 3:8,
          discmethod = c("sd", "equal", "geometric", "quantile", "natural"),
