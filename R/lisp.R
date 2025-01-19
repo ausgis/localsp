@@ -24,6 +24,7 @@
 #' gtc
 #'
 #' \donttest{
+#' ## The following code takes a long time to run:
 #' lisp(GTC ~ ., data = gtc, bandwidth = 6182954, cores = 6)
 #' }
 lisp = \(formula, data, bandwidth, discvar = NULL, discnum = 3:8,
@@ -37,6 +38,7 @@ lisp = \(formula, data, bandwidth, discvar = NULL, discnum = 3:8,
   }
 
   distmat = sdsfun::sf_distance_matrix(data)
+  data = sf::st_drop_geometry(data)
 
   calcul_localq = \(rowindice,formula,data,bw,discvar,discn,discm,...){
     localdf = data[which(distmat[rowindice,] <= bw),]
