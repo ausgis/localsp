@@ -31,6 +31,7 @@ Imports:
     gdverse,
     purrr,
     sdsfun,
+    stats,
     tibble,
     tidyr
 Suggests: 
