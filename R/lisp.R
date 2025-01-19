@@ -2,7 +2,7 @@
 #'
 #' @param formula A formula.
 #' @param data An `sf` object of observation data.
-#' @param bandwidth
+#' @param bandwidth The bandwidth employed to select "local" data.
 #' @param discvar Name of continuous variable columns that need to be discretized. Noted that
 #' when `formula` has `discvar`, `data` must have these columns. By default, all independent
 #' variables are used as `discvar`.
