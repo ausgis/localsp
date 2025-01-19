@@ -2,9 +2,9 @@
 #'
 #' @param formula A formula.
 #' @param data An `sf` object of observation data.
-#' @param bandwidth The bandwidth employed to select "local" data.
-#' @param discvar Name of continuous variable columns that need to be discretized. Noted that
-#' when `formula` has `discvar`, `data` must have these columns. By default, all independent
+#' @param bandwidth (optional) The bandwidth employed to select "local" data.
+#' @param discvar (optional) Name of continuous variable columns that need to be discretized. Noted
+#' that when `formula` has `discvar`, `data` must have these columns. By default, all independent
 #' variables are used as `discvar`.
 #' @param discnum (optional) A vector of number of classes for discretization. Default is `3:8`.
 #' @param discmethod (optional) A vector of methods for discretization, default is using
@@ -27,17 +27,26 @@
 #' ## The following code takes approximately 5 minutes to run:
 #' lisp(GTC ~ ., data = gtc, bandwidth = 618295.4, cores = 6)
 #' }
-lisp = \(formula, data, bandwidth, discvar = NULL, discnum = 3:8,
+lisp = \(formula, data, bandwidth = NULL, discvar = NULL, discnum = 3:8,
          discmethod = c("sd", "equal", "geometric", "quantile", "natural"),
          cores = 1, ...){
   doclust = FALSE
   if (cores > 1) {
     doclust = TRUE
     cl = parallel::makeCluster(cores)
-    on.exit(parallel::stopCluster(cl), add=TRUE)
+    on.exit(parallel::stopCluster(cl), add = TRUE)
   }
 
-  distmat = sdsfun::sf_distance_matrix(data)
+  if (is.null(bandwidth)){
+    yname = sdsfun::formula_varname(formula, data)[[1]]
+    vgmres = automap::autofitVariogram(paste0(yname,"~ 1"), data = data)
+    bandwidth = vgmres$var_model$range[2]
+    coords = sdsfun::sf_coordinates(data)
+    distmat = as.matrix(stats::dist(coords))
+  } else {
+    distmat = sdsfun::sf_distance_matrix(data)
+  }
+
   data = sf::st_drop_geometry(data)
 
   calcul_localq = \(rowindice,formula,data,bw,discvar,discn,discm,...){
