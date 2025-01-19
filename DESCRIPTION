@@ -33,5 +33,9 @@ Imports:
     tibble,
     tidyr
 Suggests: 
+    gstat,
+    knitr,
     readr,
+    rmarkdown,
     sf
+VignetteBuilder: knitr
