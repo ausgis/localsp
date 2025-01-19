@@ -7,7 +7,7 @@
 lisp(
   formula,
   data,
-  bandwidth,
+  bandwidth = NULL,
   discvar = NULL,
   discnum = 3:8,
   discmethod = c("sd", "equal", "geometric", "quantile", "natural"),
@@ -20,10 +20,10 @@ lisp(
 
 \item{data}{An \code{sf} object of observation data.}
 
-\item{bandwidth}{The bandwidth employed to select "local" data.}
+\item{bandwidth}{(optional) The bandwidth employed to select "local" data.}
 
-\item{discvar}{Name of continuous variable columns that need to be discretized. Noted that
-when \code{formula} has \code{discvar}, \code{data} must have these columns. By default, all independent
+\item{discvar}{(optional) Name of continuous variable columns that need to be discretized. Noted
+that when \code{formula} has \code{discvar}, \code{data} must have these columns. By default, all independent
 variables are used as \code{discvar}.}
 
 \item{discnum}{(optional) A vector of number of classes for discretization. Default is \code{3:8}.}
