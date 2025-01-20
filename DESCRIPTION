@@ -26,18 +26,15 @@ BugReports: https://github.com/ausgis/localsp/issues
 Depends: 
     R (>= 4.1.0)
 Imports: 
-    automap,
     dplyr,
     gdverse,
     purrr,
-    sdsfun,
-    stats,
+    sf,
     tibble,
     tidyr
 Suggests: 
     gstat,
     knitr,
     readr,
-    rmarkdown,
-    sf
+    rmarkdown
 VignetteBuilder: knitr
