@@ -74,7 +74,7 @@ plot(v)
 ### 2.2  Local power of determinants of individual variables
 
 ```{r lpd}
-threshold = v$var_model$range[2] * 2
+threshold = v$var_model$range[2] * 4
 distmat = as.matrix(dist(sdsfun::sf_coordinates(gtc)))
 
 lpd = localsp::lisp(GTC ~ ., data = gtc, threshold, distmat, cores = 12)
@@ -86,8 +86,8 @@ lpd
 
 Hu, J., Song, Y., & Zhang, T. (2024). A local indicator of stratified power. International Journal of Geographical Information Science, 1–19. [https://doi.org/10.1080/13658816.2024.2437811][1].
 
-&nbsp; 
+&nbsp;
 
 [1]: https://doi.org/10.1080/13658816.2024.2437811
 
-&nbsp; 
+&nbsp;
