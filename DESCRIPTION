@@ -34,6 +34,7 @@ Imports:
     tibble,
     tidyr
 Suggests: 
+    automap,
     gstat,
     knitr,
     readr,

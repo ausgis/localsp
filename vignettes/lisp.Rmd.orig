@@ -65,31 +65,26 @@ gtc
 
 ### 2.1 Local extent exploration
 
-```{r lee1}
-v = gstat::variogram(GTC ~ 1, data = gtc, cloud = F)
+```{r lee,fig.cap=knitr::asis_output("**Figure 3**. The process of deriving the local extent using the semivariogram function between the semivariance of glacier thickness change and distance.")}
+v = automap::autofitVariogram(GTC ~ 1,gtc)
 v
-plot(v,main = "Variogram - default", xlab = "Separation distance (km)")
+plot(v)
 ```
 
-```{r lee2,}
-# Intial parameter set by eye esitmation
-expm = gstat::vgm(0.3,"Exp",range = 400,0.3)
-# least square fit
-expmf = gstat::fit.variogram(v, expm)
-expmf
-plot(v, pl=F, model=expmf,col="black", cex=1, lwd=0.5,lty=1,pch=20,
-     main="Variogram models - Exponential",xlab="Distance (km)",ylab="Semivariance")
+### 2.2  Local power of determinants of individual variables
+
+```{r lpd}
+threshold = v$var_model$range[2] * 2
+distmat = as.matrix(dist(sdsfun::sf_coordinates(gtc)))
+
+lpd = localsp::lisp(GTC ~ ., data = gtc, threshold, distmat, cores = 12)
+lpd
 ```
 
 
 ## Reference
 
-
-
 Hu, J., Song, Y., & Zhang, T. (2024). A local indicator of stratified power. International Journal of Geographical Information Science, 1–19. [https://doi.org/10.1080/13658816.2024.2437811][1].
-
-
-
 
 &nbsp; 
 
