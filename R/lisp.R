@@ -1,8 +1,9 @@
 #' local indicator of stratified power
 #'
 #' @param formula A formula.
-#' @param data An `sf` object of observation data.
-#' @param bandwidth (optional) The bandwidth employed to select "local" data.
+#' @param data The observation data.
+#' @param threshold The distance threshold employed to select "local" data.
+#' @param distmat The distance matrices.
 #' @param discvar (optional) Name of continuous variable columns that need to be discretized. Noted
 #' that when `formula` has `discvar`, `data` must have these columns. By default, all independent
 #' variables are used as `discvar`.
@@ -11,7 +12,7 @@
 #' `c("sd","equal","geometric","quantile","natural")` by invoking `sdsfun`.
 #' @param cores (optional) Positive integer (default is 1). When cores are greater than 1, use
 #' multi-core parallel computing.
-#' @param ... (optional) Other arguments passed to `gdverse::gd_opttunidisc()`. A useful parameter
+#' @param ... (optional) Other arguments passed to `gdverse::gd_optunidisc()`. A useful parameter
 #' is `seed`, which is used to set the random number seed.
 #'
 #' @return A `tibble`.
@@ -20,14 +21,15 @@
 #' @examples
 #' gtc = readr::read_csv(system.file("extdata/gtc.csv", package = "localsp"))
 #' gtc
-#' gtc = sf::st_as_sf(gtc, coords = c("X","Y"), crs = 4326)
-#' gtc
+#' distmat = as.matrix(dist(gtc[, c("X","Y")]))
+#' gtc = gtc[, -c(1,2)]
 #'
 #' \dontrun{
-#' ## The following code takes approximately 5 minutes to run:
-#' lisp(GTC ~ ., data = gtc, bandwidth = 618295.4, cores = 6)
+#' # Run with multi-core parallel computing, or it takes 5 minutes:
+#' lisp(GTC ~ ., data = gtc, threshold = 4.2349, distmat = distmat,
+#'      discnum = 3:5, discmethod = "quantile", cores = 6)
 #' }
-lisp = \(formula, data, bandwidth = NULL, discvar = NULL, discnum = 3:8,
+lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
          discmethod = c("sd", "equal", "geometric", "quantile", "natural"),
          cores = 1, ...){
   doclust = FALSE
@@ -37,20 +39,14 @@ lisp = \(formula, data, bandwidth = NULL, discvar = NULL, discnum = 3:8,
     on.exit(parallel::stopCluster(cl), add = TRUE)
   }
 
-  if (is.null(bandwidth)){
-    yname = sdsfun::formula_varname(formula, data)[[1]]
-    vgmres = automap::autofitVariogram(stats::as.formula(paste0(yname,"~ 1")), data)
-    bandwidth = vgmres$var_model$range[2] * 2
-    coords = sdsfun::sf_coordinates(data)
-    distmat = as.matrix(stats::dist(coords))
-  } else {
-    distmat = sdsfun::sf_distance_matrix(data)
+  if (inherits(data,"sf")){
+    data = sf::st_drop_geometry(data)
   }
+  xname = sdsfun::formula_varname(formula, data)[[2]]
+  resname = paste0(rep(c("pd","sig"),times = length(xname)), "_", rep(xname,each = 2))
 
-  data = sf::st_drop_geometry(data)
-
-  calcul_localq = \(rowindice,formula,data,bw,discvar,discn,discm,...){
-    localdf = data[which(distmat[rowindice,] <= bw),]
+  calcul_localq = \(rowindice,formula,df,bw,dm,discvar,discn,discm,...){
+    localdf = df[which(dm[rowindice,] <= bw),]
     res = gdverse::opgd(formula, data = localdf, discvar = discvar, discnum = discn,
                         discmethod = discm, cores = 1, ...)$factor
     names(res) = c("variable","pd","sig")
@@ -63,16 +59,14 @@ lisp = \(formula, data, bandwidth = NULL, discvar = NULL, discnum = 3:8,
   }
 
   if (doclust) {
-    out_g = parallel::parLapply(cl,1:nrow(data),calcul_localq,formula,data,bandwidth,
-                                discvar,discnum,discmethod,...)
+    out_g = parallel::parLapply(cl,1:nrow(data),calcul_localq,formula,data,
+                                threshold,distmat,discvar,discnum,discmethod,...)
     out_g = tibble::as_tibble(do.call(rbind, out_g))
   } else {
-    out_g = purrr::map_dfr(1:nrow(data),calcul_localq,formula,data,bandwidth,
-                           discvar,discnum,discmethod,...)
+    out_g = purrr::map_dfr(1:nrow(data),calcul_localq,formula,data,threshold,
+                           distmat,discvar,discnum,discmethod,...)
   }
 
-  out_g = out_g |>
-    dplyr::arrange(rid) |>
-    dplyr::select(-rid)
+  out_g = dplyr::arrange(out_g,rid)[,resname]
   return(out_g)
 }

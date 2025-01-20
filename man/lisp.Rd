@@ -7,7 +7,8 @@
 lisp(
   formula,
   data,
-  bandwidth = NULL,
+  threshold,
+  distmat,
   discvar = NULL,
   discnum = 3:8,
   discmethod = c("sd", "equal", "geometric", "quantile", "natural"),
@@ -18,9 +19,11 @@ lisp(
 \arguments{
 \item{formula}{A formula.}
 
-\item{data}{An \code{sf} object of observation data.}
+\item{data}{The observation data.}
 
-\item{bandwidth}{(optional) The bandwidth employed to select "local" data.}
+\item{threshold}{The distance threshold employed to select "local" data.}
+
+\item{distmat}{The distance matrices.}
 
 \item{discvar}{(optional) Name of continuous variable columns that need to be discretized. Noted
 that when \code{formula} has \code{discvar}, \code{data} must have these columns. By default, all independent
@@ -34,7 +37,7 @@ variables are used as \code{discvar}.}
 \item{cores}{(optional) Positive integer (default is 1). When cores are greater than 1, use
 multi-core parallel computing.}
 
-\item{...}{(optional) Other arguments passed to \code{gdverse::gd_opttunidisc()}. A useful parameter
+\item{...}{(optional) Other arguments passed to \code{gdverse::gd_optunidisc()}. A useful parameter
 is \code{seed}, which is used to set the random number seed.}
 }
 \value{
@@ -46,11 +49,12 @@ local indicator of stratified power
 \examples{
 gtc = readr::read_csv(system.file("extdata/gtc.csv", package = "localsp"))
 gtc
-gtc = sf::st_as_sf(gtc, coords = c("X","Y"), crs = 4326)
-gtc
+distmat = as.matrix(dist(gtc[, c("X","Y")]))
+gtc = gtc[, -c(1,2)]
 
 \dontrun{
-## The following code takes approximately 5 minutes to run:
-lisp(GTC ~ ., data = gtc, bandwidth = 618295.4, cores = 6)
+# Run with multi-core parallel computing, or it takes 5 minutes:
+lisp(GTC ~ ., data = gtc, threshold = 4.2349, distmat = distmat,
+     discnum = 3:5, discmethod = "quantile", cores = 6)
 }
 }
