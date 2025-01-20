@@ -146,13 +146,13 @@ al. 2024</a>)</div>
 </div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gtc</span> <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/gtc.csv"</span>, package <span class="op">=</span> <span class="st">"localsp"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">## <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">908</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">11</span></span></span>
-<span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">## <span style="font-weight: bold;">Delimiter:</span> ","</span></span>
-<span><span class="co">## <span style="color: #00BB00;">dbl</span> (11): X, Y, GTC, Slope, Elev, LakeArea, WinTem, SumTem, Pre, Aspect, Sur...</span></span>
+<span><span class="co">## Rows: 908 Columns: 11</span></span>
+<span><span class="co">## ── Column specification ────────────────────────────────────────────────────────────────────────────────</span></span>
+<span><span class="co">## Delimiter: ","</span></span>
+<span><span class="co">## dbl (11): X, Y, GTC, Slope, Elev, LakeArea, WinTem, SumTem, Pre, Aspect, SurAlbedo</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span><span class="co">## ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span><span class="co">## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
 <span><span class="va">gtc</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">gtc</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X"</span>,<span class="st">"Y"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span>
 <span><span class="va">gtc</span></span>
 <span><span class="co">## Simple feature collection with 908 features and 9 fields</span></span>
@@ -160,21 +160,20 @@ al. 2024</a>)</div>
 <span><span class="co">## Dimension:     XY</span></span>
 <span><span class="co">## Bounding box:  xmin: 69.435 ymin: 27.4918 xmax: 102.75 ymax: 37.1104</span></span>
 <span><span class="co">## Geodetic CRS:  WGS 84</span></span>
-<span><span class="co">## <span style="color: #949494;"># A tibble: 908 × 10</span></span></span>
-<span><span class="co">##       GTC  Slope  Elev LakeArea    WinTem  SumTem   Pre   Aspect SurAlbedo</span></span>
-<span><span class="co">##  <span style="color: #BCBCBC;">*</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">0.766</span> 0.036<span style="text-decoration: underline;">9</span>  139.    <span style="text-decoration: underline;">4</span>750.  0.002<span style="text-decoration: underline;">45</span>   0.318  14.3  0.000<span style="text-decoration: underline;">233</span>   0.022<span style="text-decoration: underline;">0</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">0.948</span> 0.124   137.    <span style="text-decoration: underline;">4</span>559.  0.001<span style="text-decoration: underline;">31</span>   0.281  12.6  0.000<span style="text-decoration: underline;">379</span>   0.012<span style="text-decoration: underline;">3</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">2.05</span>  0.411   154.    <span style="text-decoration: underline;">4</span>428.  0.000<span style="text-decoration: underline;">229</span> -<span style="color: #BB0000;">0.192</span>   7.70 0.000<span style="text-decoration: underline;">429</span>   0.012<span style="text-decoration: underline;">1</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">0.525</span> 0.010<span style="text-decoration: underline;">1</span>  296.    <span style="text-decoration: underline;">4</span>272.  0.002<span style="text-decoration: underline;">15</span>   0.234  17.1  0.001<span style="text-decoration: underline;">30</span>    0.033<span style="text-decoration: underline;">2</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">0.950</span> 0.059<span style="text-decoration: underline;">7</span>  229.    <span style="text-decoration: underline;">5</span>845.  0.000<span style="text-decoration: underline;">472</span>  0.020<span style="text-decoration: underline;">4</span> 28.7  0.001<span style="text-decoration: underline;">74</span>    0.026<span style="text-decoration: underline;">2</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">1.88</span>  0.991   137.    <span style="text-decoration: underline;">5</span>371.  0.000<span style="text-decoration: underline;">472</span> -<span style="color: #BB0000;">0.049</span><span style="color: #BB0000; text-decoration: underline;">2</span> 16.3  0.001<span style="text-decoration: underline;">74</span>    0.026<span style="text-decoration: underline;">2</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">2.55</span>  1.28    126.    <span style="text-decoration: underline;">5</span>477.  0.000<span style="text-decoration: underline;">472</span> -<span style="color: #BB0000;">0.294</span>  14.5  0.001<span style="text-decoration: underline;">74</span>    0.026<span style="text-decoration: underline;">2</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">0.909</span> 0.044<span style="text-decoration: underline;">4</span>  217.    <span style="text-decoration: underline;">4</span>691.  0.001<span style="text-decoration: underline;">55</span>   0.326  17.3  0.001<span style="text-decoration: underline;">75</span>    0.035<span style="text-decoration: underline;">9</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">3.94</span>  0.406   161.    <span style="text-decoration: underline;">3</span>912. -<span style="color: #BB0000;">0.000</span><span style="color: #BB0000; text-decoration: underline;">868</span>  0.049<span style="text-decoration: underline;">0</span>  7.88 0.001<span style="text-decoration: underline;">77</span>    0.003<span style="text-decoration: underline;">79</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">0.819</span> 0.012<span style="text-decoration: underline;">2</span>  153.    <span style="text-decoration: underline;">4</span>066. -<span style="color: #BB0000;">0.000</span><span style="color: #BB0000; text-decoration: underline;">529</span> -<span style="color: #BB0000;">0.035</span><span style="color: #BB0000; text-decoration: underline;">6</span>  6.40 0.001<span style="text-decoration: underline;">78</span>    0.041<span style="text-decoration: underline;">5</span> </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 898 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 1 more variable: geometry &lt;POINT [°]&gt;</span></span></span></code></pre></div>
+<span><span class="co">## # A tibble: 908 × 10</span></span>
+<span><span class="co">##       GTC  Slope  Elev LakeArea    WinTem  SumTem   Pre   Aspect SurAlbedo          geometry</span></span>
+<span><span class="co">##  *  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;       &lt;POINT [°]&gt;</span></span>
+<span><span class="co">##  1 -0.766 0.0369  139.    4750.  0.00245   0.318  14.3  0.000233   0.0220  (75.7125 34.5219)</span></span>
+<span><span class="co">##  2 -0.948 0.124   137.    4559.  0.00131   0.281  12.6  0.000379   0.0123   (76.0715 34.343)</span></span>
+<span><span class="co">##  3 -2.05  0.411   154.    4428.  0.000229 -0.192   7.70 0.000429   0.0121  (90.2298 28.1097)</span></span>
+<span><span class="co">##  4 -0.525 0.0101  296.    4272.  0.00215   0.234  17.1  0.00130    0.0332  (72.7349 35.7435)</span></span>
+<span><span class="co">##  5 -0.950 0.0597  229.    5845.  0.000472  0.0204 28.7  0.00174    0.0262  (88.6606 27.9974)</span></span>
+<span><span class="co">##  6 -1.88  0.991   137.    5371.  0.000472 -0.0492 16.3  0.00174    0.0262   (88.687 27.9951)</span></span>
+<span><span class="co">##  7 -2.55  1.28    126.    5477.  0.000472 -0.294  14.5  0.00174    0.0262  (88.7123 27.9911)</span></span>
+<span><span class="co">##  8 -0.909 0.0444  217.    4691.  0.00155   0.326  17.3  0.00175    0.0359  (75.3851 35.3621)</span></span>
+<span><span class="co">##  9 -3.94  0.406   161.    3912. -0.000868  0.0490  7.88 0.00177    0.00379 (96.5057 29.4569)</span></span>
+<span><span class="co">## 10 -0.819 0.0122  153.    4066. -0.000529 -0.0356  6.40 0.00178    0.0415  (71.9206 36.3066)</span></span>
+<span><span class="co">## # ℹ 898 more rows</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -185,40 +184,65 @@ glacier thickness<a class="anchor" aria-label="anchor" href="#case-study-identif
 <h3 id="local-extent-exploration">2.1 Local extent exploration<a class="anchor" aria-label="anchor" href="#local-extent-exploration"></a>
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">v</span> <span class="op">=</span> <span class="fu">gstat</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/gstat/reference/variogram.html" class="external-link">variogram</a></span><span class="op">(</span><span class="va">GTC</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">gtc</span>, cloud <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">v</span> <span class="op">=</span> <span class="fu">automap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/automap/man/autofitVariogram.html" class="external-link">autofitVariogram</a></span><span class="op">(</span><span class="va">GTC</span> <span class="op">~</span> <span class="fl">1</span>,<span class="va">gtc</span><span class="op">)</span></span>
 <span><span class="va">v</span></span>
-<span><span class="co">##       np       dist     gamma dir.hor dir.ver   id</span></span>
-<span><span class="co">## 1  14931   39.33453 0.4743007       0       0 var1</span></span>
-<span><span class="co">## 2  15815  109.54341 0.6589910       0       0 var1</span></span>
-<span><span class="co">## 3  16588  185.03042 0.5761573       0       0 var1</span></span>
-<span><span class="co">## 4  19754  256.38421 0.5980874       0       0 var1</span></span>
-<span><span class="co">## 5  20459  329.91127 0.5577942       0       0 var1</span></span>
-<span><span class="co">## 6  18543  401.88149 0.6276614       0       0 var1</span></span>
-<span><span class="co">## 7  16864  474.87660 0.6135782       0       0 var1</span></span>
-<span><span class="co">## 8  15980  549.52079 0.5865082       0       0 var1</span></span>
-<span><span class="co">## 9  17769  623.60036 0.5960570       0       0 var1</span></span>
-<span><span class="co">## 10 17245  693.03051 0.5546563       0       0 var1</span></span>
-<span><span class="co">## 11 13694  768.17532 0.6192201       0       0 var1</span></span>
-<span><span class="co">## 12 14019  841.81593 0.5845925       0       0 var1</span></span>
-<span><span class="co">## 13 13084  914.49653 0.6409234       0       0 var1</span></span>
-<span><span class="co">## 14 11224  988.46713 0.6174315       0       0 var1</span></span>
-<span><span class="co">## 15 12948 1060.66167 0.6082240       0       0 var1</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">v</span>,main <span class="op">=</span> <span class="st">"Variogram - default"</span>, xlab <span class="op">=</span> <span class="st">"Separation distance (km)"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="man%2Ffigures%2Flocalsp%2Flee1-1.png" width="700"></p>
+<span><span class="co">## $exp_var</span></span>
+<span><span class="co">##     np       dist      gamma dir.hor dir.ver   id</span></span>
+<span><span class="co">## 1   11  0.3389571 0.06079091       0       0 var1</span></span>
+<span><span class="co">## 2    7  0.6293936 0.06652231       0       0 var1</span></span>
+<span><span class="co">## 3   10  0.9278894 0.17501639       0       0 var1</span></span>
+<span><span class="co">## 4   16  1.2492295 0.14382694       0       0 var1</span></span>
+<span><span class="co">## 5   26  1.7004611 0.41004265       0       0 var1</span></span>
+<span><span class="co">## 6  117  2.4469826 0.23342367       0       0 var1</span></span>
+<span><span class="co">## 7  137  3.6686816 0.30107541       0       0 var1</span></span>
+<span><span class="co">## 8  261  5.2154522 0.30447724       0       0 var1</span></span>
+<span><span class="co">## 9  322  7.0108583 0.30203198       0       0 var1</span></span>
+<span><span class="co">## 10 309  8.8443752 0.35842465       0       0 var1</span></span>
+<span><span class="co">## 11 435 10.9281487 0.36289139       0       0 var1</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $var_model</span></span>
+<span><span class="co">##   model      psill   range kappa</span></span>
+<span><span class="co">## 1   Nug 0.03547043 0.00000     0</span></span>
+<span><span class="co">## 2   Ste 0.26631800 1.24462    10</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $sserr</span></span>
+<span><span class="co">## [1] 0.3693861</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## attr(,"class")</span></span>
+<span><span class="co">## [1] "autofitVariogram" "list"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="../reference/figures/localsp/lee-1.png" alt="Figure 3. The process of deriving the local extent using the semivariogram function between the semivariance of glacier thickness change and distance."><div class="figcaption">
+<strong>Figure 3</strong>. The process of
+deriving the local extent using the semivariogram function between the
+semivariance of glacier thickness change and distance.</div>
+</div>
+</div>
+<div class="section level3">
+<h3 id="local-power-of-determinants-of-individual-variables">2.2 Local power of determinants of individual variables<a class="anchor" aria-label="anchor" href="#local-power-of-determinants-of-individual-variables"></a>
+</h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Intial parameter set by eye esitmation</span></span>
-<span><span class="va">expm</span> <span class="op">=</span> <span class="fu">gstat</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/gstat/reference/vgm.html" class="external-link">vgm</a></span><span class="op">(</span><span class="fl">0.3</span>,<span class="st">"Exp"</span>,range <span class="op">=</span> <span class="fl">400</span>,<span class="fl">0.3</span><span class="op">)</span></span>
-<span><span class="co"># least square fit</span></span>
-<span><span class="va">expmf</span> <span class="op">=</span> <span class="fu">gstat</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/gstat/reference/fit.variogram.html" class="external-link">fit.variogram</a></span><span class="op">(</span><span class="va">v</span>, <span class="va">expm</span><span class="op">)</span></span>
-<span><span class="co">## Warning in gstat::fit.variogram(v, expm): No convergence after 200 iterations:</span></span>
-<span><span class="co">## try different initial values?</span></span>
-<span><span class="va">expmf</span></span>
-<span><span class="co">##   model     psill   range</span></span>
-<span><span class="co">## 1   Nug 0.0000000  0.0000</span></span>
-<span><span class="co">## 2   Exp 0.6241965 27.4061</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">v</span>, pl<span class="op">=</span><span class="cn">F</span>, model<span class="op">=</span><span class="va">expmf</span>,col<span class="op">=</span><span class="st">"black"</span>, cex<span class="op">=</span><span class="fl">1</span>, lwd<span class="op">=</span><span class="fl">0.5</span>,lty<span class="op">=</span><span class="fl">1</span>,pch<span class="op">=</span><span class="fl">20</span>,</span>
-<span>     main<span class="op">=</span><span class="st">"Variogram models - Exponential"</span>,xlab<span class="op">=</span><span class="st">"Distance (km)"</span>,ylab<span class="op">=</span><span class="st">"Semivariance"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="man%2Ffigures%2Flocalsp%2Flee2-1.png" width="700"></p>
+<code class="sourceCode R"><span><span class="va">threshold</span> <span class="op">=</span> <span class="va">v</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="fl">4</span></span>
+<span><span class="va">distmat</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></span><span class="op">(</span><span class="fu">sdsfun</span><span class="fu">::</span><span class="fu"><a href="https://stscl.github.io/sdsfun/reference/sf_coordinates.html" class="external-link">sf_coordinates</a></span><span class="op">(</span><span class="va">gtc</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">lpd</span> <span class="op">=</span> <span class="fu">localsp</span><span class="fu">::</span><span class="fu"><a href="../reference/lisp.html">lisp</a></span><span class="op">(</span><span class="va">GTC</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">gtc</span>, <span class="va">threshold</span>, <span class="va">distmat</span>, cores <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span><span class="va">lpd</span></span>
+<span><span class="co">## # A tibble: 908 × 16</span></span>
+<span><span class="co">##    pd_Slope sig_Slope pd_Elev sig_Elev pd_LakeArea sig_LakeArea pd_WinTem sig_WinTem pd_SumTem</span></span>
+<span><span class="co">##       &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">##  1    0.111  1.57e- 1  0.0721 0.00289        0.109     3.58e- 3    0.0808    0.329      0.138 </span></span>
+<span><span class="co">##  2    0.120  1.86e- 1  0.0716 0.00415        0.105     6.24e- 3    0.0833    0.281      0.137 </span></span>
+<span><span class="co">##  3    0.216  4.82e-10  0.0774 0.000290       0.346     5.49e-10    0.0474    0.0341     0.0232</span></span>
+<span><span class="co">##  4    0.141  2.40e- 2  0.132  0.000768       0.124     7.29e- 3    0.0291    0.540      0.175 </span></span>
+<span><span class="co">##  5    0.250  6.88e-10  0.0777 0.00192        0.226     4.14e- 5    0.0227    0.583      0.0179</span></span>
+<span><span class="co">##  6    0.249  7.64e-10  0.0776 0.00188        0.226     3.87e- 5    0.0228    0.580      0.0182</span></span>
+<span><span class="co">##  7    0.249  7.64e-10  0.0776 0.00188        0.226     3.87e- 5    0.0228    0.580      0.0182</span></span>
+<span><span class="co">##  8    0.121  2.02e- 1  0.0674 0.0183         0.114     4.25e- 3    0.0544    0.319      0.250 </span></span>
+<span><span class="co">##  9    0.288  2.16e- 3  0.0706 0.0301         0.368     2.95e-10    0.0971    0.00661    0.0723</span></span>
+<span><span class="co">## 10    0.179  2.45e- 2  0.121  0.0121         0.133     1.69e- 3    0.0297    0.799      0.235 </span></span>
+<span><span class="co">## # ℹ 898 more rows</span></span>
+<span><span class="co">## # ℹ 7 more variables: sig_SumTem &lt;dbl&gt;, pd_Pre &lt;dbl&gt;, sig_Pre &lt;dbl&gt;, pd_Aspect &lt;dbl&gt;, sig_Aspect &lt;dbl&gt;,</span></span>
+<span><span class="co">## #   pd_SurAlbedo &lt;dbl&gt;, sig_SurAlbedo &lt;dbl&gt;</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
