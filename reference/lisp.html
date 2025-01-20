@@ -45,7 +45,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lisp</span><span class="op">(</span></span>
 <span>  <span class="va">formula</span>,</span>
 <span>  <span class="va">data</span>,</span>
-<span>  bandwidth <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">threshold</span>,</span>
+<span>  <span class="va">distmat</span>,</span>
 <span>  discvar <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  discnum <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">8</span>,</span>
 <span>  discmethod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sd"</span>, <span class="st">"equal"</span>, <span class="st">"geometric"</span>, <span class="st">"quantile"</span>, <span class="st">"natural"</span><span class="op">)</span>,</span>
@@ -63,11 +64,15 @@
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>An <code>sf</code> object of observation data.</p></dd>
+<dd><p>The observation data.</p></dd>
 
 
-<dt id="arg-bandwidth">bandwidth<a class="anchor" aria-label="anchor" href="#arg-bandwidth"></a></dt>
-<dd><p>(optional) The bandwidth employed to select "local" data.</p></dd>
+<dt id="arg-threshold">threshold<a class="anchor" aria-label="anchor" href="#arg-threshold"></a></dt>
+<dd><p>The distance threshold employed to select "local" data.</p></dd>
+
+
+<dt id="arg-distmat">distmat<a class="anchor" aria-label="anchor" href="#arg-distmat"></a></dt>
+<dd><p>The distance matrices.</p></dd>
 
 
 <dt id="arg-discvar">discvar<a class="anchor" aria-label="anchor" href="#arg-discvar"></a></dt>
@@ -91,7 +96,7 @@ multi-core parallel computing.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>(optional) Other arguments passed to <code>gdverse::gd_opttunidisc()</code>. A useful parameter
+<dd><p>(optional) Other arguments passed to <code>gdverse::gd_optunidisc()</code>. A useful parameter
 is <code>seed</code>, which is used to set the random number seed.</p></dd>
 
 </dl></div>
@@ -126,32 +131,13 @@ is <code>seed</code>, which is used to set the random number seed.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>  71.9  36.3 -<span style="color: #BB0000;">0.819</span> 0.012<span style="text-decoration: underline;">2</span>  153.    <span style="text-decoration: underline;">4</span>066. -<span style="color: #BB0000;">0.000</span><span style="color: #BB0000; text-decoration: underline;">529</span> -<span style="color: #BB0000;">0.035</span><span style="color: #BB0000; text-decoration: underline;">6</span>  6.40 0.001<span style="text-decoration: underline;">78</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 898 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: SurAlbedo &lt;dbl&gt;</span></span>
-<span class="r-in"><span><span class="va">gtc</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">gtc</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X"</span>,<span class="st">"Y"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">gtc</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 908 features and 9 fields</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 69.435 ymin: 27.4918 xmax: 102.75 ymax: 37.1104</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 908 × 10</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       GTC  Slope  Elev LakeArea    WinTem  SumTem   Pre   Aspect SurAlbedo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #BCBCBC;">*</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">0.766</span> 0.036<span style="text-decoration: underline;">9</span>  139.    <span style="text-decoration: underline;">4</span>750.  0.002<span style="text-decoration: underline;">45</span>   0.318  14.3  0.000<span style="text-decoration: underline;">233</span>   0.022<span style="text-decoration: underline;">0</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">0.948</span> 0.124   137.    <span style="text-decoration: underline;">4</span>559.  0.001<span style="text-decoration: underline;">31</span>   0.281  12.6  0.000<span style="text-decoration: underline;">379</span>   0.012<span style="text-decoration: underline;">3</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">2.05</span>  0.411   154.    <span style="text-decoration: underline;">4</span>428.  0.000<span style="text-decoration: underline;">229</span> -<span style="color: #BB0000;">0.192</span>   7.70 0.000<span style="text-decoration: underline;">429</span>   0.012<span style="text-decoration: underline;">1</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">0.525</span> 0.010<span style="text-decoration: underline;">1</span>  296.    <span style="text-decoration: underline;">4</span>272.  0.002<span style="text-decoration: underline;">15</span>   0.234  17.1  0.001<span style="text-decoration: underline;">30</span>    0.033<span style="text-decoration: underline;">2</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">0.950</span> 0.059<span style="text-decoration: underline;">7</span>  229.    <span style="text-decoration: underline;">5</span>845.  0.000<span style="text-decoration: underline;">472</span>  0.020<span style="text-decoration: underline;">4</span> 28.7  0.001<span style="text-decoration: underline;">74</span>    0.026<span style="text-decoration: underline;">2</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">1.88</span>  0.991   137.    <span style="text-decoration: underline;">5</span>371.  0.000<span style="text-decoration: underline;">472</span> -<span style="color: #BB0000;">0.049</span><span style="color: #BB0000; text-decoration: underline;">2</span> 16.3  0.001<span style="text-decoration: underline;">74</span>    0.026<span style="text-decoration: underline;">2</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">2.55</span>  1.28    126.    <span style="text-decoration: underline;">5</span>477.  0.000<span style="text-decoration: underline;">472</span> -<span style="color: #BB0000;">0.294</span>  14.5  0.001<span style="text-decoration: underline;">74</span>    0.026<span style="text-decoration: underline;">2</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">0.909</span> 0.044<span style="text-decoration: underline;">4</span>  217.    <span style="text-decoration: underline;">4</span>691.  0.001<span style="text-decoration: underline;">55</span>   0.326  17.3  0.001<span style="text-decoration: underline;">75</span>    0.035<span style="text-decoration: underline;">9</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">3.94</span>  0.406   161.    <span style="text-decoration: underline;">3</span>912. -<span style="color: #BB0000;">0.000</span><span style="color: #BB0000; text-decoration: underline;">868</span>  0.049<span style="text-decoration: underline;">0</span>  7.88 0.001<span style="text-decoration: underline;">77</span>    0.003<span style="text-decoration: underline;">79</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">0.819</span> 0.012<span style="text-decoration: underline;">2</span>  153.    <span style="text-decoration: underline;">4</span>066. -<span style="color: #BB0000;">0.000</span><span style="color: #BB0000; text-decoration: underline;">529</span> -<span style="color: #BB0000;">0.035</span><span style="color: #BB0000; text-decoration: underline;">6</span>  6.40 0.001<span style="text-decoration: underline;">78</span>    0.041<span style="text-decoration: underline;">5</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 898 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: geometry &lt;POINT [°]&gt;</span></span>
+<span class="r-in"><span><span class="va">distmat</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></span><span class="op">(</span><span class="va">gtc</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X"</span>,<span class="st">"Y"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gtc</span> <span class="op">=</span> <span class="va">gtc</span><span class="op">[</span>, <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co">## The following code takes approximately 5 minutes to run:</span></span></span>
-<span class="r-in"><span><span class="fu">lisp</span><span class="op">(</span><span class="va">GTC</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">gtc</span>, bandwidth <span class="op">=</span> <span class="fl">618295.4</span>, cores <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Run with multi-core parallel computing, or it takes 5 minutes:</span></span></span>
+<span class="r-in"><span><span class="fu">lisp</span><span class="op">(</span><span class="va">GTC</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">gtc</span>, threshold <span class="op">=</span> <span class="fl">4.2349</span>, distmat <span class="op">=</span> <span class="va">distmat</span>,</span></span>
+<span class="r-in"><span>     discnum <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">5</span>, discmethod <span class="op">=</span> <span class="st">"quantile"</span>, cores <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
