@@ -49,8 +49,8 @@ lisp = \(formula, data, bandwidth = NULL, discvar = NULL, discnum = 3:8,
 
   data = sf::st_drop_geometry(data)
 
-  calcul_localq = \(rowindice,formula,data,bw,discvar,discn,discm,...){
-    localdf = data[which(distmat[rowindice,] <= bw),]
+  calcul_localq = \(rowindice,formula,data,dm,bw,discvar,discn,discm,...){
+    localdf = data[which(dm[rowindice,] <= bw),]
     res = gdverse::opgd(formula, data = localdf, discvar = discvar, discnum = discn,
                         discmethod = discm, cores = 1, ...)$factor
     names(res) = c("variable","pd","sig")
@@ -63,12 +63,12 @@ lisp = \(formula, data, bandwidth = NULL, discvar = NULL, discnum = 3:8,
   }
 
   if (doclust) {
-    out_g = parallel::parLapply(cl,1:nrow(data),calcul_localq,formula,data,bandwidth,
-                                discvar,discnum,discmethod,...)
+    out_g = parallel::parLapply(cl,1:nrow(data),calcul_localq,formula,data,distmat,
+                                bandwidth,discvar,discnum,discmethod,...)
     out_g = tibble::as_tibble(do.call(rbind, out_g))
   } else {
-    out_g = purrr::map_dfr(1:nrow(data),calcul_localq,formula,data,bandwidth,
-                           discvar,discnum,discmethod,...)
+    out_g = purrr::map_dfr(1:nrow(data),calcul_localq,formula,data,distmat,
+                           bandwidth,discvar,discnum,discmethod,...)
   }
 
   out_g = out_g |>
