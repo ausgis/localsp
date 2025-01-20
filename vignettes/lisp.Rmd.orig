@@ -1,0 +1,93 @@
+---
+title: "Local Indicator of Stratified Power"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{lisp}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "man/figures/localsp/"
+)
+```
+
+## Introduction to the **localsp** package
+
+### 1.1 This package can be used to address following issues:
+
+- Identify local power of individual determinants.
+
+- Explore how spatial stratified association changes spatially and in local regions.
+
+### 1.2 How to install this package:
+
+- Install the stable version, please use:
+
+```r
+install.packages("localsp", dep = TRUE)
+```
+
+- Install the development version, please use:
+
+```r
+install.packages("localsp",
+                 repos = c("https://ausgis.r-universe.dev",
+                           "https://cloud.r-project.org"),
+                 dep = TRUE)
+```
+
+1.3 General calculation process of LISP model:
+
+Figure 1 shows the process of LISP, comprising three sequential steps. First, the optimal extent for local is identified using a spatial variogram to satisfy the criterion of a sufficiently small range and ensure that the data within the extent exhibit adequate heterogeneity and association. The second step is to analyze the PD of individual variables on the response variable through GD modeling with optimal spatial discretization algorithms and parameters at the local scale. The final step is to quantify the local PD of interaction variables, including the interaction of a pair of spatial variables and the interaction of multiple variables, using a tree-based spatial discretization approach and stratified heterogeneity approaches.
+
+![**Figure 1**. The technical flowchart of the local indicator of stratified power (LISP) for examining the local power of determinants. ([Hu et al. 2024][1])](../man/figures/lisp/flowchart.jpg){width=500px}
+
+
+### 1.4 Example data in this package:
+
+The `gtc.csv` dataset documents glacier thickness changes (GTC) from 2000 to 2020, along with potential influencing factors in the Greater Himalayas, encompassing the Hengduan Mountains, Himalayas, Nyainqentanglha Mountains, Karakoram, and Hindu Kush (see Figure2). Variables such as *WinTem*, *SumTem*, and *Pre* represent the linear trends of winter temperature, summer temperature, and precipitation over the 2000–2020 period. *Elev*, *Aspect*, and *Slope* are derived from NASADEM data and correspond to elevation, aspect, and slope, respectively. *LakeArea* indicates the area of glacial lakes, while *SurAlbedo*, calculated from MODIS products, represents the surface albedo of glaciers.
+
+![**Figure 2**. Spatial distribution of the thickness variations of lake-terminating glaciers in the Greater Himalayas. The dots in the chart represent the thickness variations of lake-terminating glaciers. The histogram in the figure shows the frequency of thickness changes at the terminus of glaciers connected to glacier lakes. ([Hu et al. 2024][1])](../man/figures/lisp/studyarea.jpg){width=500px}
+
+```{r example_data}
+gtc = readr::read_csv(system.file("extdata/gtc.csv", package = "localsp"))
+gtc = sf::st_as_sf(gtc, coords = c("X","Y"), crs = 4326)
+gtc
+```
+
+
+
+## Case study: identifying local stratified determinants of Mountain glacier thickness
+
+### 2.1 Local extent exploration
+
+```{r lee,fig.cap=knitr::asis_output("**Figure 3**. The process of deriving the local extent using the semivariogram function between the semivariance of glacier thickness change and distance.")}
+v = automap::autofitVariogram(GTC ~ 1,gtc)
+v
+plot(v)
+```
+
+### 2.2  Local power of determinants of individual variables
+
+```{r lpd}
+threshold = v$var_model$range[2] * 4
+distmat = as.matrix(dist(sdsfun::sf_coordinates(gtc)))
+
+lpd = localsp::lisp(GTC ~ ., data = gtc, threshold, distmat, cores = 12)
+lpd
+```
+
+
+## Reference
+
+Hu, J., Song, Y., & Zhang, T. (2024). A local indicator of stratified power. International Journal of Geographical Information Science, 1–19. [https://doi.org/10.1080/13658816.2024.2437811][1].
+
+&nbsp;
+
+[1]: https://doi.org/10.1080/13658816.2024.2437811
+
+&nbsp;
