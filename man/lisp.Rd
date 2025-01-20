@@ -52,7 +52,7 @@ gtc
 distmat = as.matrix(dist(gtc[, c("X","Y")]))
 gtc = gtc[, -c(1,2)]
 
-\dontest{
+\donttest{
 # The following code requires multi-core parallel computing; otherwise, it takes approximately 5 minutes to run:
 lisp(GTC ~ ., data = gtc, threshold = 4.2349, distmat = distmat,
      discnum = 3:5, discmethod = "quantile", cores = 6)

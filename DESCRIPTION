@@ -29,6 +29,7 @@ Imports:
     dplyr,
     gdverse,
     purrr,
+    sdsfun,
     sf,
     tibble,
     tidyr
