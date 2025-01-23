@@ -49,12 +49,19 @@ local indicator of stratified power
 \examples{
 gtc = readr::read_csv(system.file("extdata/gtc.csv", package = "localsp"))
 gtc
-distmat = as.matrix(dist(gtc[, c("X","Y")]))
-gtc = gtc[, -c(1,2)]
 
-\dontrun{
-# Run with multi-core parallel computing, or it takes 5 minutes:
-lisp(GTC ~ ., data = gtc, threshold = 4.2349, distmat = distmat,
-     discnum = 3:5, discmethod = "quantile", cores = 6)
+\donttest{
+# Sample 100 observations from the original data to save runtime;
+# This is unnecessary in practice;
+set.seed(42)
+gtc1 = gtc[sample.int(nrow(gtc),size = 100),]
+distmat = as.matrix(dist(gtc1[, c("X","Y")]))
+gtc1 = gtc1[, -c(1,2)]
+gtc1
+
+# Use 2 cores for parallel computing;
+# Increase cores in practice to speed up;
+lisp(GTC ~ ., data = gtc1, threshold = 4.2349, distmat = distmat,
+     discnum = 3:5, discmethod = "quantile", cores = 2)
 }
 }
