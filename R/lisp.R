@@ -55,7 +55,16 @@ lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
   calcul_localq = \(rowindice,formula,df,bw,dm,discvar,discn,discm,...){
     localdf = df[which(dm[rowindice,] <= bw),]
     res = gdverse::opgd(formula, data = localdf, discvar = discvar, discnum = discn,
-                        discmethod = discm, cores = 1, ...)$factor
+                        discmethod = discm, cores = 1, type = "interaction", ...)$interaction
+    qv1 = dplyr::select(res,c(1,4,7))
+    qv2 = dplyr::select(res,c(2,5,8))
+    names(qv1) = names(qv2) = c("variable","pd","sig")
+    factor_qv = dplyr::bind_rows(qv1,qv2) |> 
+      dplyr::distinct() |> 
+      tidyr::pivot_longer(2:3,names_to = "qn",values_to = "qv") |> 
+      tidyr::pivot_wider(names_from = 2:1, values_from = 3)
+    interaction_qv
+    tidyr::pivot_longer(dplyr::select(res,c(1,4,7)),2:3,names_to = "qn",values_to = "qv")->b
     names(res) = c("variable","pd","sig")
     res = tidyr::pivot_longer(res,2:3,names_to = "qn",values_to = "qv")
     localpd = res$qv
@@ -77,3 +86,8 @@ lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
   out_g = dplyr::arrange(out_g,rid)[,resname]
   return(out_g)
 }
+
+sim = gdverse::sim
+gdverse::opgd(y ~ xa + xb + xc, data = sim,
+              discvar = paste0('x',letters[1:3]),
+              discnum = 3:6, type = "interaction") -> a
