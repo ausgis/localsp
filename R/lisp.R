@@ -33,7 +33,7 @@
 #'
 #' # Use 2 cores for parallel computing;
 #' # Increase cores in practice to speed up;
-#' lisp(GTC ~ ., data = gtc1, threshold = 4.2349, distmat = distmat,
+#' lisp(GTC ~ ., data = gtc1, threshold = 8, distmat = distmat,
 #'      discnum = 3:5, discmethod = "quantile", cores = 2)
 #' }
 lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
