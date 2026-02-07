@@ -49,6 +49,7 @@ lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
   if (inherits(data,"sf")){
     data = sf::st_drop_geometry(data)
   }
+  IntersectionSymbol = rawToChar(as.raw(c(0x20, 0xE2, 0x88, 0xA9, 0x20)))
   xname = sdsfun::formula_varname(formula, data)[[2]]
   resname = paste0(rep(c("pd","sig"),times = length(xname)), "_", rep(xname,each = 2))
 
@@ -63,7 +64,14 @@ lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
       dplyr::distinct() |> 
       tidyr::pivot_longer(2:3,names_to = "qn",values_to = "qv") |> 
       tidyr::pivot_wider(names_from = 2:1, values_from = 3)
-    interaction_qv
+    interaction_qv = dplyr::select(res,c(1:3,6,9)) |> 
+      dplyr::mutate(variable = paste0(variable1,IntersectionSymbol,variable2)) |> 
+      dplyr::select(variable, Interaction,
+                    pd = `Variable1 and Variable2 interact Q-statistics`,
+                    sig = `Variable1 and Variable2 interact P-value`) |> 
+      dplyr::select(c(1,4:6))
+    names(interaction_qv) = c("variable","interaction","pd","sig")
+    names(qv1) = names(qv2) = c("variable","pd","sig")
     tidyr::pivot_longer(dplyr::select(res,c(1,4,7)),2:3,names_to = "qn",values_to = "qv")->b
     names(res) = c("variable","pd","sig")
     res = tidyr::pivot_longer(res,2:3,names_to = "qn",values_to = "qv")
