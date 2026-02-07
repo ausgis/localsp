@@ -51,13 +51,13 @@ lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
   }
 
   calcul_localq = \(rowindice,formula,df,bw,dm,discvar,discn,discm,...){
-    localdf = df[which(dm[rowindice,] <= bw),]
+    localdf = df[which(dm[rowindice,] <= bw),,drop = FALSE]
     res = gdverse::opgd(formula, data = localdf, discvar = discvar, discnum = discn,
                         discmethod = discm, cores = 1, type = "interaction", ...)$interaction
-    qv1 = dplyr::select(res,c(1,4,7))
-    qv2 = dplyr::select(res,c(2,5,8))
-    names(qv1) = names(qv2) = c("variable","pd","sig")
-    factor_qv = dplyr::bind_rows(qv1,qv2) |> 
+    factor_qv1 = dplyr::select(res,c(1,4,7))
+    factor_qv2 = dplyr::select(res,c(2,5,8))
+    names(factor_qv1) = names(factor_qv2) = c("variable","pd","sig")
+    factor_qv = dplyr::bind_rows(factor_qv1,factor_qv2) |> 
       dplyr::distinct() |> 
       tidyr::pivot_longer(2:3,names_to = "qn",values_to = "qv") |> 
       tidyr::pivot_wider(names_from = 2:1, values_from = 3)
