@@ -20,7 +20,7 @@ Description: Implements a local indicator of stratified power to analyze local s
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 URL: https://ausgis.github.io/localsp/, https://github.com/ausgis/localsp
 BugReports: https://github.com/ausgis/localsp/issues
 Depends: 
