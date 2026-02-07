@@ -11,3 +11,15 @@ bibentry(
   author  = "Jiao Hu and Yongze Song and Tingbin Zhang",
   doi     = "10.1080/13658816.2024.2437811"
 )
+
+bibentry(
+  bibtype = "Article",
+  title   = "gdverse: An R Package for Spatial Stratified Heterogeneity Family",
+  author  = "Wenbo Lv and Yangyang Lei and Fangmei Liu and Jianwu Yan and Yongze Song and Wufan Zhao",
+  journal = "Transactions in GIS",
+  year    = "2025",
+  volume  = "29",
+  number  = "2",
+  pages   = "29:e70032",
+  doi     = "10.1111/tgis.70032"
+)
