@@ -3,24 +3,24 @@ Title: Local Indicator of Stratified Power
 Version: 0.2.0
 Authors@R: 
     c(
-      person(given = "Jiao", family = "Hu",
-             email = "jeakhu0723@gmail.com", 
-             role = c("aut", "cph"),
-             comment = c(ORCID = "0000-0002-9644-9763")),
       person(given = "Wenbo", family = "Lv",
              email = "lyu.geosocial@gmail.com", 
-             role = c("aut", "cre"),
+             role = c("aut", "cre", "cph"),
              comment = c(ORCID = "0009-0002-6003-3800")),
       person(given = "Yongze", family = "Song",
              email = "yongze.song@outlook.com", 
              role = c("aut"),
-             comment = c(ORCID = "0000-0003-3420-9622"))
+             comment = c(ORCID = "0000-0003-3420-9622")),
+      person(given = "Jiao", family = "Hu",
+             email = "jeakhu0723@gmail.com", 
+             role = c("aut"),
+             comment = c(ORCID = "0000-0002-9644-9763"))
      )
 Description: Implements a local indicator of stratified power to analyze local spatial stratified association and demonstrate how spatial stratified association changes spatially and in local regions, as outlined in Hu et al. (2024) <doi:10.1080/13658816.2024.2437811>.
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 URL: https://ausgis.github.io/localsp/, https://github.com/ausgis/localsp
 BugReports: https://github.com/ausgis/localsp/issues
 Depends: 

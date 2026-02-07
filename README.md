@@ -10,6 +10,7 @@
 [![Downloads](https://cranlogs.r-pkg.org/badges/localsp)](https://CRAN.R-project.org/package=localsp)
 [![R-universe](https://ausgis.r-universe.dev/badges/localsp)](https://ausgis.r-universe.dev/localsp)
 [![DOI](https://img.shields.io/badge/DOI-10.1080/13658816.2024.2437811-faa92e)](https://doi.org/10.1080/13658816.2024.2437811)
+[![R-CMD-check](https://github.com/ausgis/localsp/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ausgis/localsp/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 **Local Indicator of Stratified Power**
