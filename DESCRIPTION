@@ -27,7 +27,7 @@ Depends:
     R (>= 4.1.0)
 Imports: 
     dplyr,
-    gdverse,
+    gdverse (>= 1.6),
     purrr,
     sdsfun,
     sf,
@@ -39,4 +39,6 @@ Suggests:
     knitr,
     readr,
     rmarkdown
+Remotes:
+    stscl/gdverse
 VignetteBuilder: knitr

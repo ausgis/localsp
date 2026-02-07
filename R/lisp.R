@@ -33,7 +33,7 @@
 #'
 #' # Use 2 cores for parallel computing;
 #' # Increase cores in practice to speed up;
-#' lisp(GTC ~ ., data = gtc1, threshold = 4.2349, distmat = distmat,
+#' lisp(GTC ~ ., data = gtc1, threshold = 8, distmat = distmat,
 #'      discnum = 3:5, discmethod = "quantile", cores = 2)
 #' }
 lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
@@ -49,18 +49,28 @@ lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
   if (inherits(data,"sf")){
     data = sf::st_drop_geometry(data)
   }
-  xname = sdsfun::formula_varname(formula, data)[[2]]
-  resname = paste0(rep(c("pd","sig"),times = length(xname)), "_", rep(xname,each = 2))
 
   calcul_localq = \(rowindice,formula,df,bw,dm,discvar,discn,discm,...){
-    localdf = df[which(dm[rowindice,] <= bw),]
+    localdf = df[which(dm[rowindice,] <= bw),,drop = FALSE]
     res = gdverse::opgd(formula, data = localdf, discvar = discvar, discnum = discn,
-                        discmethod = discm, cores = 1, ...)$factor
-    names(res) = c("variable","pd","sig")
-    res = tidyr::pivot_longer(res,2:3,names_to = "qn",values_to = "qv")
-    localpd = res$qv
-    names(localpd) = paste0(res$qn,"_",res$variable)
-    localpd = tibble::as_tibble_row(localpd)
+                        discmethod = discm, cores = 1, type = "interaction", ...)$interaction
+    factor_qv1 = dplyr::select(res,c(1,4,7))
+    factor_qv2 = dplyr::select(res,c(2,5,8))
+    names(factor_qv1) = names(factor_qv2) = c("variable","pd","sig")
+    factor_qv = dplyr::bind_rows(factor_qv1,factor_qv2) |> 
+      dplyr::distinct() |> 
+      tidyr::pivot_longer(2:3,names_to = "qn",values_to = "qv") |> 
+      tidyr::pivot_wider(names_from = 2:1, values_from = 3)
+    interaction_qv = res |> 
+      dplyr::select(variable1, variable2, Interaction,
+                    pd = `Variable1 and Variable2 interact Q-statistics`,
+                    sig = `Variable1 and Variable2 interact P-value`) |> 
+      tidyr::pivot_wider(
+        names_from = 1:2,
+        names_glue = "{variable1}_{variable2}_{.value}",
+        values_from = c(Interaction, pd, sig)
+      )
+    localpd = dplyr::bind_cols(factor_qv,interaction_qv)
     localpd$rid = rowindice
     return(localpd)
   }
@@ -74,6 +84,8 @@ lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
                            distmat,discvar,discnum,discmethod,...)
   }
 
-  out_g = dplyr::arrange(out_g,rid)[,resname]
+  out_g = out_g |> 
+    dplyr::arrange(rid) |> 
+    dplyr::select(rid, dplyr::everything())
   return(out_g)
 }
