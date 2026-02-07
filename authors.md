@@ -1,0 +1,31 @@
+# Authors and Citation
+
+## Authors
+
+- **[Wenbo Lv](https://spatlyu.github.io/)**. Author, maintainer,
+  copyright holder. [](https://orcid.org/0009-0002-6003-3800)
+
+- **[Yongze Song](https://yongzesong.com/)**. Author.
+  [](https://orcid.org/0000-0003-3420-9622)
+
+- **[Jiao Hu](https://www.researchgate.net/profile/Jiao-Hu-8)**. Author.
+  [](https://orcid.org/0000-0002-9644-9763)
+
+## Citation
+
+Source:
+[`inst/CITATION`](https://github.com/ausgis/localsp/blob/main/inst/CITATION)
+
+Hu, Jiao, Song, Yongze, Zhang, Tingbin (2024). “A local indicator of
+stratified power.” *International Journal of Geographical Information
+Science*, 1–19.
+[doi:10.1080/13658816.2024.2437811](https://doi.org/10.1080/13658816.2024.2437811).
+
+    @Article{,
+      title = {A local indicator of stratified power},
+      journal = {International Journal of Geographical Information Science},
+      pages = {1–19},
+      year = {2024},
+      author = {{Hu} and {Jiao} and {Song} and {Yongze} and {Zhang} and {Tingbin}},
+      doi = {10.1080/13658816.2024.2437811},
+    }
