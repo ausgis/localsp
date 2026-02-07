@@ -49,9 +49,6 @@ lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
   if (inherits(data,"sf")){
     data = sf::st_drop_geometry(data)
   }
-  IntersectionSymbol = rawToChar(as.raw(c(0x20, 0xE2, 0x88, 0xA9, 0x20)))
-  xname = sdsfun::formula_varname(formula, data)[[2]]
-  resname = paste0(rep(c("pd","sig"),times = length(xname)), "_", rep(xname,each = 2))
 
   calcul_localq = \(rowindice,formula,df,bw,dm,discvar,discn,discm,...){
     localdf = df[which(dm[rowindice,] <= bw),]
@@ -64,20 +61,18 @@ lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
       dplyr::distinct() |> 
       tidyr::pivot_longer(2:3,names_to = "qn",values_to = "qv") |> 
       tidyr::pivot_wider(names_from = 2:1, values_from = 3)
-    interaction_qv = dplyr::select(res,c(1:3,6,9)) |> 
-      dplyr::mutate(variable = paste0(variable1,IntersectionSymbol,variable2)) |> 
-      dplyr::select(variable, Interaction,
+    interaction_qv = res |> 
+      dplyr::select(variable1, variable2, Interaction,
                     pd = `Variable1 and Variable2 interact Q-statistics`,
                     sig = `Variable1 and Variable2 interact P-value`) |> 
+      tidyr::pivot_wider(
+        #id_cols = 1:2,
+        names_from = 1:2,
+        names_glue = "{variable1}_{variable2}_{.value}",
+        values_from = c(Interaction, pd, sig)
+      )
       dplyr::select(c(1,4:6))
-    names(interaction_qv) = c("variable","interaction","pd","sig")
-    names(qv1) = names(qv2) = c("variable","pd","sig")
-    tidyr::pivot_longer(dplyr::select(res,c(1,4,7)),2:3,names_to = "qn",values_to = "qv")->b
-    names(res) = c("variable","pd","sig")
-    res = tidyr::pivot_longer(res,2:3,names_to = "qn",values_to = "qv")
-    localpd = res$qv
-    names(localpd) = paste0(res$qn,"_",res$variable)
-    localpd = tibble::as_tibble_row(localpd)
+    localpd = dplyr::bind_cols(factor_qv,interaction_qv)
     localpd$rid = rowindice
     return(localpd)
   }
@@ -94,8 +89,3 @@ lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
   out_g = dplyr::arrange(out_g,rid)[,resname]
   return(out_g)
 }
-
-sim = gdverse::sim
-gdverse::opgd(y ~ xa + xb + xc, data = sim,
-              discvar = paste0('x',letters[1:3]),
-              discnum = 3:6, type = "interaction") -> a
