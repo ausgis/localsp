@@ -66,12 +66,10 @@ lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
                     pd = `Variable1 and Variable2 interact Q-statistics`,
                     sig = `Variable1 and Variable2 interact P-value`) |> 
       tidyr::pivot_wider(
-        #id_cols = 1:2,
         names_from = 1:2,
         names_glue = "{variable1}_{variable2}_{.value}",
         values_from = c(Interaction, pd, sig)
       )
-      dplyr::select(c(1,4:6))
     localpd = dplyr::bind_cols(factor_qv,interaction_qv)
     localpd$rid = rowindice
     return(localpd)
