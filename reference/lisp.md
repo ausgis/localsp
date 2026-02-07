@@ -123,24 +123,27 @@ gtc1
 
 # Use 2 cores for parallel computing;
 # Increase cores in practice to speed up;
-lisp(GTC ~ ., data = gtc1, threshold = 4.2349, distmat = distmat,
+lisp(GTC ~ ., data = gtc1, threshold = 8, distmat = distmat,
      discnum = 3:5, discmethod = "quantile", cores = 2)
-#> # A tibble: 100 × 16
-#>    pd_Slope sig_Slope pd_Elev sig_Elev pd_LakeArea sig_LakeArea pd_WinTem
-#>       <dbl>     <dbl>   <dbl>    <dbl>       <dbl>        <dbl>     <dbl>
-#>  1   0.247     0.458   0.121     0.763      0.304       0.320       0.565
-#>  2   0.182     0.801   0.223     0.727      0.181       0.795       0.351
-#>  3   0.213     0.224   0.0693    0.749      0.0664      0.596       0.283
-#>  4   0.575     0.0482  0.229     0.340      0.693       0.00959     0.249
-#>  5   0.575     0.0482  0.229     0.340      0.693       0.00959     0.249
-#>  6   0.0923    0.549   0.0920    0.550      0.0721      0.795       0.138
-#>  7   0.295     0.296   0.0862    0.687      0.265       0.230       0.372
-#>  8   0.212     0.239   0.0703    0.755      0.136       0.486       0.320
-#>  9   0.212     0.239   0.0703    0.755      0.136       0.486       0.320
-#> 10   0.373     0.229   0.0406    0.956      0.331       0.0726      0.442
+#> # A tibble: 100 × 101
+#>      rid pd_Aspect sig_Aspect pd_Elev sig_Elev pd_LakeArea sig_LakeArea pd_Pre
+#>    <int>     <dbl>      <dbl>   <dbl>    <dbl>       <dbl>        <dbl>  <dbl>
+#>  1     1    0.0491    0.696    0.0379    0.416      0.102    0.336       0.380
+#>  2     2    0.204     0.0748   0.113     0.306      0.267    0.0244      0.276
+#>  3     3    0.0788    0.487    0.0274    0.872      0.0783   0.183       0.418
+#>  4     4    0.342     0.00646  0.144     0.284      0.659    0.00000310  0.443
+#>  5     5    0.342     0.00646  0.144     0.284      0.659    0.00000310  0.443
+#>  6     6    0.153     0.171    0.0298    0.723      0.0578   0.651       0.397
+#>  7     7    0.156     0.136    0.0352    0.860      0.0674   0.660       0.447
+#>  8     8    0.0788    0.487    0.0274    0.872      0.0783   0.183       0.418
+#>  9     9    0.108     0.346    0.0280    0.879      0.125    0.162       0.452
+#> 10    10    0.156     0.136    0.0352    0.860      0.0674   0.660       0.447
 #> # ℹ 90 more rows
-#> # ℹ 9 more variables: sig_WinTem <dbl>, pd_SumTem <dbl>, sig_SumTem <dbl>,
-#> #   pd_Pre <dbl>, sig_Pre <dbl>, pd_Aspect <dbl>, sig_Aspect <dbl>,
-#> #   pd_SurAlbedo <dbl>, sig_SurAlbedo <dbl>
+#> # ℹ 93 more variables: sig_Pre <dbl>, pd_Slope <dbl>, sig_Slope <dbl>,
+#> #   pd_SumTem <dbl>, sig_SumTem <dbl>, pd_SurAlbedo <dbl>, sig_SurAlbedo <dbl>,
+#> #   pd_WinTem <dbl>, sig_WinTem <dbl>, Aspect_Elev_Interaction <chr>,
+#> #   Aspect_LakeArea_Interaction <chr>, Aspect_Pre_Interaction <chr>,
+#> #   Aspect_Slope_Interaction <chr>, Aspect_SumTem_Interaction <chr>,
+#> #   Aspect_SurAlbedo_Interaction <chr>, Aspect_WinTem_Interaction <chr>, …
 # }
 ```
