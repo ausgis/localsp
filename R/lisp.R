@@ -84,6 +84,8 @@ lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
                            distmat,discvar,discnum,discmethod,...)
   }
 
-  out_g = dplyr::arrange(out_g,rid)
+  out_g = out_g |> 
+    dplyr::arrange(rid) |> 
+    dplyr::select(rid, dplyr::everything())
   return(out_g)
 }
