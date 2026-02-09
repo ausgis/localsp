@@ -49,9 +49,10 @@ lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
   if (inherits(data,"sf")){
     data = sf::st_drop_geometry(data)
   }
+  threshold = rep(threshold,length.out = nrow(data))
 
   calcul_localq = \(rowindice,formula,df,bw,dm,discvar,discn,discm,...){
-    localdf = df[which(dm[rowindice,] <= bw),,drop = FALSE]
+    localdf = df[which(dm[rowindice,] <= bw[rowindice]),,drop = FALSE]
     res = gdverse::opgd(formula, data = localdf, discvar = discvar, discnum = discn,
                         discmethod = discm, cores = 1, type = "interaction", ...)$interaction
     factor_qv1 = dplyr::select(res,c(1,4,7))
@@ -74,7 +75,7 @@ lisp = \(formula, data, threshold, distmat, discvar = NULL, discnum = 3:8,
     localpd$rid = rowindice
     return(localpd)
   }
-
+ 
   if (doclust) {
     out_g = parallel::parLapply(cl,1:nrow(data),calcul_localq,formula,data,
                                 threshold,distmat,discvar,discnum,discmethod,...)
