@@ -30,7 +30,6 @@ Imports:
     gdverse (>= 1.6),
     parallel,
     purrr,
-    sdsfun,
     sf,
     tibble,
     tidyr
@@ -39,7 +38,8 @@ Suggests:
     gstat,
     knitr,
     readr,
-    rmarkdown
+    rmarkdown,
+    sdsfun
 Remotes:
     stscl/gdverse
 VignetteBuilder: knitr
