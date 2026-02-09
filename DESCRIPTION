@@ -28,6 +28,7 @@ Depends:
 Imports: 
     dplyr,
     gdverse (>= 1.6),
+    parallel,
     purrr,
     sdsfun,
     sf,
