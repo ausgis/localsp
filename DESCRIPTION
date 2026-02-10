@@ -40,6 +40,4 @@ Suggests:
     readr,
     rmarkdown,
     sdsfun
-Remotes:
-    stscl/gdverse
 VignetteBuilder: knitr
